@@ -1,17 +1,17 @@
 from openai import OpenAI
 import os 
-from assistant_utils import interact_with_movie_critic # import helper
+from assistant_utils import interact_with_movie_agent_assistant # import helper
 
 # set up key
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-def create_movie_critic_assistant():
+def create_movie_agent_assistant():
     try:
-        client = openai.client()
+        client = OpenAI()
 
         assistant = client.beta.assistants.create(
-            name="Movie Critic",
-            instructions="You are a movie critic. Use the provided functions to answer questions",
+            name="Movie Agent Assistant",
+            instructions="You are a movie expert. Use the provided functions to answer questions",
             tools=[{
                 "type": "function",
                 "function": {
@@ -32,10 +32,10 @@ def create_movie_critic_assistant():
                     }
                 }
                 }],
-            model="gpt-4o",
+            model="gpt-4o-mini",
         )
 
-        print("Movie Critic Assistant created successfully!")
+        print("Movie Agent Assistant created successfully!")
         return assistant
     
     except Exception as e:
@@ -44,7 +44,7 @@ def create_movie_critic_assistant():
 
 # Main execution
 if __name__ == "__main__": 
-    assistant = create_movie_critic_assistant()
+    assistant = create_movie_agent_assistant()
     if assistant:
         print(f"Assistant ID: {assistant['id']}")
     else:
